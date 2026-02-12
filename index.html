@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Web 设计规范 · CHCNAV Design</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --color-bg: #f8f9fc;
+      --color-surface: #ffffff;
+      --color-border: #e8eaef;
+      --color-text: #1a1d26;
+      --color-text-secondary: #5c6370;
+      --color-text-tertiary: #8c929e;
+      --color-primary: #2563eb;
+      --color-primary-hover: #1d4ed8;
+      --color-primary-light: #eff6ff;
+      --color-success: #059669;
+      --color-warning: #d97706;
+      --color-error: #dc2626;
+      --color-info: #0284c7;
+      --radius-sm: 6px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --radius-xl: 16px;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,.06);
+      --shadow-md: 0 4px 12px rgba(0,0,0,.08);
+      --shadow-lg: 0 8px 24px rgba(0,0,0,.1);
+      --font-sans: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-2xl: 48px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--color-text);
+      background: var(--color-bg);
+    }
+
+    .nav-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--color-border);
+      padding: var(--space-md) var(--space-xl);
+    }
+    .nav-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-brand { font-weight: 700; font-size: 1.125rem; color: var(--color-text); text-decoration: none; }
+    .nav-links { display: flex; gap: var(--space-lg); flex-wrap: wrap; }
+    .nav-links a {
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      font-size: 0.9375rem;
+      font-weight: 500;
+    }
+    .nav-links a:hover { color: var(--color-primary); }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: var(--space-xl);
+    }
+
+    .hero {
+      padding: var(--space-2xl) 0;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 700;
+      margin: 0 0 var(--space-md);
+      letter-spacing: -0.02em;
+    }
+    .hero p {
+      color: var(--color-text-secondary);
+      font-size: 1.125rem;
+      max-width: 42ch;
+      margin: 0 auto;
+    }
+
+    section {
+      background: var(--color-surface);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--color-border);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-lg);
+    }
+    section h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 0 0 var(--space-md);
+      padding-bottom: var(--space-sm);
+      border-bottom: 2px solid var(--color-primary);
+      display: inline-block;
+    }
+    section h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin: var(--space-md) 0 var(--space-sm);
+      color: var(--color-text-secondary);
+    }
+    section p { margin: 0 0 var(--space-sm); color: var(--color-text-secondary); font-size: 0.9375rem; }
+
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: var(--space-md);
+      margin-top: var(--space-md);
+    }
+    .color-swatch {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    .color-swatch .block {
+      height: 80px;
+    }
+    .color-swatch .label {
+      padding: var(--space-sm) var(--space-md);
+      background: var(--color-surface);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--color-text);
+    }
+    .color-swatch .hex { font-size: 0.75rem; color: var(--color-text-tertiary); font-weight: 400; }
+
+    .type-sample {
+      margin: var(--space-sm) 0;
+      padding: var(--space-md);
+      background: var(--color-bg);
+      border-radius: var(--radius-md);
+    }
+    .type-sample .label { font-size: 0.75rem; color: var(--color-text-tertiary); margin-bottom: var(--space-xs); }
+    .type-h1 { font-size: 2rem; font-weight: 700; }
+    .type-h2 { font-size: 1.5rem; font-weight: 600; }
+    .type-h3 { font-size: 1.25rem; font-weight: 600; }
+    .type-body { font-size: 1rem; font-weight: 400; }
+    .type-caption { font-size: 0.875rem; color: var(--color-text-secondary); }
+
+    .space-demo {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+      align-items: flex-end;
+      margin-top: var(--space-md);
+    }
+    .space-box {
+      background: var(--color-primary-light);
+      color: var(--color-primary);
+      font-size: 0.75rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-sm);
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+      align-items: center;
+      margin-top: var(--space-md);
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-sm) var(--space-md);
+      font-family: var(--font-sans);
+      font-size: 0.9375rem;
+      font-weight: 500;
+      border-radius: var(--radius-md);
+      border: none;
+      cursor: pointer;
+      transition: background .15s, color .15s, box-shadow .15s;
+    }
+    .btn-primary {
+      background: var(--color-primary);
+      color: #fff;
+    }
+    .btn-primary:hover { background: var(--color-primary-hover); }
+    .btn-secondary {
+      background: var(--color-surface);
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+    }
+    .btn-secondary:hover { background: var(--color-bg); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--color-primary);
+    }
+    .btn-ghost:hover { background: var(--color-primary-light); }
+
+    .radius-demo {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-lg);
+      margin-top: var(--space-md);
+    }
+    .radius-box {
+      width: 80px;
+      height: 80px;
+      background: var(--color-primary-light);
+      color: var(--color-primary);
+      font-size: 0.75rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .shadow-demo {
+      display: flex;
+      gap: var(--space-xl);
+      flex-wrap: wrap;
+      margin-top: var(--space-md);
+      padding: var(--space-lg);
+      background: var(--color-bg);
+      border-radius: var(--radius-md);
+    }
+    .shadow-box {
+      width: 100px;
+      height: 100px;
+      background: var(--color-surface);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: var(--color-text-tertiary);
+    }
+    .shadow-box.sm { box-shadow: var(--shadow-sm); }
+    .shadow-box.md { box-shadow: var(--shadow-md); }
+    .shadow-box.lg { box-shadow: var(--shadow-lg); }
+
+    footer {
+      text-align: center;
+      padding: var(--space-xl);
+      color: var(--color-text-tertiary);
+      font-size: 0.875rem;
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav-bar">
+    <div class="nav-inner">
+      <a class="nav-brand" href="#">CHCNAV Design</a>
+      <div class="nav-links">
+        <a href="#color">色彩</a>
+        <a href="#typography">字体</a>
+        <a href="#spacing">间距</a>
+        <a href="#radius">圆角与阴影</a>
+        <a href="#components">组件</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <header class="hero">
+      <h1>Web 设计规范</h1>
+      <p>统一产品视觉与交互，保证一致性与可访问性。本页为单页设计规范参考。</p>
+    </header>
+
+    <section id="color">
+      <h2>色彩</h2>
+      <p>主色用于关键操作与品牌强调；语义色用于状态反馈。</p>
+      <div class="color-grid">
+        <div class="color-swatch">
+          <div class="block" style="background: #2563eb;"></div>
+          <div class="label">主色 <span class="hex">#2563eb</span></div>
+        </div>
+        <div class="color-swatch">
+          <div class="block" style="background: #059669;"></div>
+          <div class="label">成功 <span class="hex">#059669</span></div>
+        </div>
+        <div class="color-swatch">
+          <div class="block" style="background: #d97706;"></div>
+          <div class="label">警告 <span class="hex">#d97706</span></div>
+        </div>
+        <div class="color-swatch">
+          <div class="block" style="background: #dc2626;"></div>
+          <div class="label">错误 <span class="hex">#dc2626</span></div>
+        </div>
+        <div class="color-swatch">
+          <div class="block" style="background: #1a1d26;"></div>
+          <div class="label">正文 <span class="hex">#1a1d26</span></div>
+        </div>
+        <div class="color-swatch">
+          <div class="block" style="background: #5c6370;"></div>
+          <div class="label">次要文字 <span class="hex">#5c6370</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="typography">
+      <h2>字体与层级</h2>
+      <p>使用 Noto Sans SC 作为界面字体，层级清晰便于扫读。</p>
+      <div class="type-sample">
+        <div class="label">H1 · 2rem / 700</div>
+        <div class="type-h1">标题一</div>
+      </div>
+      <div class="type-sample">
+        <div class="label">H2 · 1.5rem / 600</div>
+        <div class="type-h2">标题二</div>
+      </div>
+      <div class="type-sample">
+        <div class="label">H3 · 1.25rem / 600</div>
+        <div class="type-h3">标题三</div>
+      </div>
+      <div class="type-sample">
+        <div class="label">正文 · 1rem / 400</div>
+        <div class="type-body">正文内容用于段落与列表，行高 1.6 保证可读性。</div>
+      </div>
+      <div class="type-sample">
+        <div class="label">说明 · 0.875rem / 次要色</div>
+        <div class="type-caption">辅助说明与图注使用较小字号与次要文字色。</div>
+      </div>
+    </section>
+
+    <section id="spacing">
+      <h2>间距体系</h2>
+      <p>以 4px 为基准，使用 4 / 8 / 16 / 24 / 32 / 48px 保持版面节奏一致。</p>
+      <div class="space-demo">
+        <div class="space-box" style="width: 40px; height: 40px;">4</div>
+        <div class="space-box" style="width: 48px; height: 48px;">8</div>
+        <div class="space-box" style="width: 56px; height: 56px;">16</div>
+        <div class="space-box" style="width: 64px; height: 64px;">24</div>
+        <div class="space-box" style="width: 72px; height: 72px;">32</div>
+        <div class="space-box" style="width: 88px; height: 88px;">48</div>
+      </div>
+      <p style="margin-top: var(--space-md);">对应变量：--space-xs(4) / sm(8) / md(16) / lg(24) / xl(32) / 2xl(48)。</p>
+    </section>
+
+    <section id="radius">
+      <h2>圆角与阴影</h2>
+      <h3>圆角</h3>
+      <p>小元素 6px，卡片 8–12px，弹层 16px。</p>
+      <div class="radius-demo">
+        <div class="radius-box" style="border-radius: 6px;">6px</div>
+        <div class="radius-box" style="border-radius: 8px;">8px</div>
+        <div class="radius-box" style="border-radius: 12px;">12px</div>
+        <div class="radius-box" style="border-radius: 16px;">16px</div>
+      </div>
+      <h3>阴影</h3>
+      <p>用于区分层级，避免过重阴影影响可读性。</p>
+      <div class="shadow-demo">
+        <div class="shadow-box sm">sm</div>
+        <div class="shadow-box md">md</div>
+        <div class="shadow-box lg">lg</div>
+      </div>
+    </section>
+
+    <section id="components">
+      <h2>组件示例</h2>
+      <p>按钮：主按钮、次要按钮、文字按钮，状态需有 hover 反馈。</p>
+      <div class="btn-row">
+        <button type="button" class="btn btn-primary">主要按钮</button>
+        <button type="button" class="btn btn-secondary">次要按钮</button>
+        <button type="button" class="btn btn-ghost">文字按钮</button>
+      </div>
+      <p style="margin-top: var(--space-lg);">表单、输入框、选择器、提示框等组件应遵循同一套色彩、圆角与间距变量。</p>
+    </section>
+  </main>
+
+  <footer>
+    CHCNAV Design · Web 设计规范 · 单页文档
+  </footer>
+</body>
+</html>
