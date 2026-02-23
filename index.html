@@ -880,20 +880,38 @@
     }
     loadContent('content/chcnav/values.md');
 
-    // 顶部搜索（支持标题 + 页面内容）
+    // 顶部搜索（支持标题 + 页面内容），索引延迟构建以加快首屏
     var searchInput = document.getElementById('header-search-input');
     var searchResults = document.getElementById('search-results');
     var searchIndex = [];
+    var searchIndexReady = false;
     document.querySelectorAll('.side-nav-item[data-content]').forEach(function(item) {
-      searchIndex.push({ text: item.textContent.trim(), file: item.getAttribute('data-content'), content: '' });
+      searchIndex.push({ text: item.textContent.trim(), file: item.getAttribute('data-content'), content: '', contentRaw: '', fetched: false });
     });
-    Promise.all(searchIndex.map(function(item) {
-      return fetch(item.file, { cache: 'no-store' }).then(function(r) { return r.text(); }).then(function(t) {
-        item.contentRaw = t || '';
-        item.content = (t || '').toLowerCase();
-        return item;
-      }).catch(function() { return item; });
-    })).then(function() {});
+    function buildSearchIndex() {
+      if (searchIndexReady) return;
+      var pending = searchIndex.filter(function(item) { return !item.fetched; });
+      if (pending.length === 0) { searchIndexReady = true; return; }
+      var batch = pending.slice(0, 8);
+      Promise.all(batch.map(function(item) {
+        return fetch(item.file).then(function(r) { return r.text(); }).then(function(t) {
+          item.contentRaw = t || '';
+          item.content = (t || '').toLowerCase();
+          item.fetched = true;
+          return item;
+        }).catch(function() { item.fetched = true; return item; });
+      })).then(function() {
+        if (searchIndex.every(function(item) { return item.fetched; })) searchIndexReady = true;
+        var hasMore = searchIndex.some(function(item) { return !item.fetched; });
+        if (hasMore) setTimeout(buildSearchIndex, 80);
+      });
+    }
+    function whenIdle(fn) {
+      if (typeof requestIdleCallback !== 'undefined') requestIdleCallback(fn, { timeout: 2000 });
+      else setTimeout(fn, 500);
+    }
+    whenIdle(buildSearchIndex);
+    searchInput.addEventListener('focus', function() { whenIdle(buildSearchIndex); }, { once: true });
     function getSnippet(raw, q, maxLen) {
       if (!raw) return '';
       var lower = raw.toLowerCase();
