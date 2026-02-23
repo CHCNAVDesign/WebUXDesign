@@ -2,9 +2,18 @@
 
 单页 Web 设计规范文档，适用于 GitHub Pages 部署。
 
+**编辑内容**：直接修改 `content/` 目录下对应的 `.md` 文件即可，页面会自动加载并渲染。支持 Markdown 语法（标题、列表、加粗等）。
+
+**目录结构**：
+- `content/chcnav/` - CHCNAV Design（介绍、设计价值观）
+- `content/guide/` - 交互规范文档
+- `content/prototype/` - 交互原型库（场景范例）
+- `content/components/` - 组件说明
+- `content/token.md` - Token 交互参数表
+
 ## 本地预览
 
-用浏览器直接打开 `index.html`，或使用本地服务器：
+因需加载 `content/` 目录下的 md 文件，需通过本地服务器预览（直接打开 `index.html` 会加载失败）：
 
 ```bash
 # Python 3
