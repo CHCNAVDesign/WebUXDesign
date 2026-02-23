@@ -425,6 +425,12 @@
       height: auto;
       vertical-align: middle;
     }
+    #content-body .img-caption {
+      text-align: center;
+      font-size: 12px;
+      color: var(--color-text-tertiary);
+      margin: -4px 0 var(--space-md);
+    }
     .img-preview-overlay {
       display: none;
       position: fixed;
@@ -504,6 +510,36 @@
     }
     #content-body tbody tr:hover {
       background: rgba(0,0,0,.04);
+    }
+    #content-body table td .img-wrapper,
+    #content-body table th .img-wrapper {
+      max-width: 80%;
+      display: block;
+    }
+    #content-body table td .img-wrapper img,
+    #content-body table th .img-wrapper img {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: none;
+      display: block;
+      vertical-align: top;
+    }
+    #content-body .img-wrapper:has(img.img-small),
+    #content-body img.img-small {
+      max-width: 200px;
+    }
+    #content-body table.table-no-bg,
+    #content-body table.table-no-bg thead,
+    #content-body table.table-no-bg th,
+    #content-body table.table-no-bg td {
+      background: transparent;
+      border: none;
+      box-shadow: none;
+    }
+    #content-body table.table-no-bg th {
+      padding: 8px 12px;
+      font-weight: 400;
     }
 
     .value-quote {
@@ -607,32 +643,33 @@
       <div class="side-nav-group open">
         <div class="side-nav-group-title">CHCNAV Design - Web<span class="arrow">▲</span></div>
         <div class="side-nav-items">
-          <a href="#" class="side-nav-item active" data-content="content/chcnav/values.md">设计价值观</a>
+          <a href="#" class="side-nav-item active" data-content="content/chcnav/values.md">Values（设计价值观）</a>
         </div>
       </div>
       <div class="side-nav-group open">
         <div class="side-nav-group-title">交互原型库（场景范例） <span class="arrow">▲</span></div>
         <div class="side-nav-items">
-          <a href="#" class="side-nav-item" data-content="content/prototype/list.md">列表页</a>
-          <a href="#" class="side-nav-item" data-content="content/prototype/detail.md">详情页</a>
-          <a href="#" class="side-nav-item" data-content="content/prototype/form.md">表单页</a>
-          <a href="#" class="side-nav-item" data-content="content/prototype/result.md">结果页</a>
-          <a href="#" class="side-nav-item" data-content="content/prototype/error.md">异常页</a>
+          <a href="#" class="side-nav-item" data-content="content/prototype/list.md">List（列表页）</a>
+          <a href="#" class="side-nav-item" data-content="content/prototype/dashboard.md">Dashboard（仪表盘）</a>
+          <a href="#" class="side-nav-item" data-content="content/prototype/form.md">Form（表单页）</a>
+          <a href="#" class="side-nav-item" data-content="content/prototype/detail.md">Detail（详情页）</a>
+          <a href="#" class="side-nav-item" data-content="content/prototype/result.md">Result（结果页）</a>
+          <a href="#" class="side-nav-item" data-content="content/prototype/error.md">Error（异常页）</a>
         </div>
       </div>
       <div class="side-nav-group open">
         <div class="side-nav-group-title">交互规范文档 <span class="arrow">▲</span></div>
         <div class="side-nav-items">
-          <a href="#" class="side-nav-item" data-content="content/guide/feedback.md">反馈</a>
-          <a href="#" class="side-nav-item" data-content="content/guide/nav.md">导航</a>
-          <a href="#" class="side-nav-item" data-content="content/guide/status.md">状态展示</a>
-          <a href="#" class="side-nav-item" data-content="content/guide/hotzone.md">交互热区</a>
-          <a href="#" class="side-nav-item" data-content="content/guide/flow.md">页面流转</a>
-          <a href="#" class="side-nav-item" data-content="content/guide/responsive.md">响应式设计</a>
+          <a href="#" class="side-nav-item" data-content="content/guide/feedback.md">Feedback（反馈）</a>
+          <a href="#" class="side-nav-item" data-content="content/guide/nav.md">Nav（导航）</a>
+          <a href="#" class="side-nav-item" data-content="content/guide/status.md">Status（状态展示）</a>
+          <a href="#" class="side-nav-item" data-content="content/guide/hotzone.md">Hotzone（交互热区）</a>
+          <a href="#" class="side-nav-item" data-content="content/guide/flow.md">Flow（页面流转）</a>
+          <a href="#" class="side-nav-item" data-content="content/guide/responsive.md">Responsive（响应式设计）</a>
         </div>
       </div>
       <div class="side-nav-group open">
-        <div class="side-nav-group-title">组件说明 <span class="arrow">▲</span></div>
+        <div class="side-nav-group-title">组件说明（原有内容） <span class="arrow">▲</span></div>
         <div class="side-nav-items">
           <div class="side-nav-subgroup">
             <div class="side-nav-subgroup-title">基础组件 Base</div>
@@ -720,7 +757,7 @@
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
     function loadContent(file, highlightTerm) {
-      fetch(file)
+      fetch(file, { cache: 'no-store' })
         .then(r => r.text())
         .then(md => {
           document.getElementById('content-body').innerHTML = marked.parse(md);
@@ -729,6 +766,7 @@
           }
           wrapContentImages();
           buildAnchorNav();
+          window.scrollTo(0, 0);
         })
         .catch(() => {
           document.getElementById('content-body').innerHTML = '<p>加载失败，请确保文件存在。</p>';
@@ -850,7 +888,7 @@
       searchIndex.push({ text: item.textContent.trim(), file: item.getAttribute('data-content'), content: '' });
     });
     Promise.all(searchIndex.map(function(item) {
-      return fetch(item.file).then(function(r) { return r.text(); }).then(function(t) {
+      return fetch(item.file, { cache: 'no-store' }).then(function(r) { return r.text(); }).then(function(t) {
         item.contentRaw = t || '';
         item.content = (t || '').toLowerCase();
         return item;

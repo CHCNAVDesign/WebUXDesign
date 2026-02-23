@@ -13,21 +13,20 @@
 
 按钮/链接状态变化（hover/active/focus）、拖拽预览效果、长按/右键功能提示。
 
-![图片](images/guide/test.png)
 
 ### 表单实时验证
 
 - 输入中的即时检查：密码强度实时显示、邮箱/电话格式检查、字符数/字数统计
 - 使用 `input` 事件而非 `blur`，提供即时但非打断性的提示
 
-![图片](images/guide/test.png)
+![图片](images/guide/feedback/1.png)
 
 ### 进度提示
 
 - 分步流程引导、上传/下载进度条、后台任务进度指示
 - 提供进度百分比、剩余时间估计，允许取消操作
 
-![图片](images/guide/test.png)
+![图片](images/guide/feedback/2.png)
 
 ---
 
@@ -44,7 +43,6 @@
 
 表单提交后的字段错误、必填项提醒，在错误字段附近明确提示，说明正确格式。
 
-![图片](images/guide/test.png)
 
 ### Toast 提示
 
@@ -56,7 +54,7 @@
 - 操作成功反馈、自动保存提示、网络状态变更，出现在屏幕顶部或右上角，不打断用户流
 - 自动消失的轻量反馈。成功类用绿色，普通信息类用白色，警告类用橙色，错误类用红色。一次只显示一个，避免堆叠
 
-![图片](images/guide/test.png)
+![图片](images/guide/feedback/3.png)
 
 ### Alert / 横幅通知
 
@@ -67,7 +65,7 @@
 
 网络断开/恢复、可操作的系统消息、版本更新提示，固定在顶部或底部，提供操作按钮（如重试、查看）。
 
-![图片](images/guide/test.png)
+![图片](images/guide/feedback/4.png)
 
 ### Notice / 通知
 
@@ -78,7 +76,7 @@
 
 在系统四个角显示通知提醒信息。常用于：较为复杂的通知内容；带有交互的通知，给出用户下一步的行动点；系统主动推送。
 
-![图片](images/guide/test.png)
+![图片](images/guide/feedback/5.png)
 
 ### 弹窗 / 模态框
 
@@ -89,7 +87,7 @@
 
 删除确认、权限请求、严重错误提示、重要表单填写。明确主次按钮，Esc 键可关闭，注意焦点管理。
 
-![图片](images/guide/test.png)
+![图片](images/guide/feedback/6.png)
 
 ### 独占式
 
@@ -100,4 +98,4 @@
 
 当有重要操作需告知用户处理结果，且反馈内容较为复杂时使用。
 
-![图片](images/guide/test.png)
+![图片](images/guide/feedback/7.png)
